@@ -39,11 +39,13 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args, context) => {
       if (!context.currentUser) {
-        throw new GraphQLError(`Invalid token`, {
+        console.log("user is null");
+      }
+      if (!context.currentUser) {
+        throw new GraphQLError(`not authenticated`, {
           extensions: {
             code: "BAD_USER_INPUT",
             invalidArgs: args.name,
-            error,
           },
         });
       }
@@ -101,11 +103,10 @@ const resolvers = {
 
     editAuthor: async (root, args, context) => {
       if (!context.currentUser) {
-        throw new GraphQLError(`Invalid token`, {
+        throw new GraphQLError(`not authenticated`, {
           extensions: {
             code: "BAD_USER_INPUT",
             invalidArgs: args.name,
-            error,
           },
         });
       }
