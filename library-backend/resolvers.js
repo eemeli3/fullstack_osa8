@@ -39,9 +39,6 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args, context) => {
       if (!context.currentUser) {
-        console.log("user is null");
-      }
-      if (!context.currentUser) {
         throw new GraphQLError(`not authenticated`, {
           extensions: {
             code: "BAD_USER_INPUT",

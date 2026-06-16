@@ -42,7 +42,7 @@ const App = () => {
           <Route path='/add' element={<NewBook />} />
           <Route path='/recommended' element={<Recommended />} />
           <Route path='/books' element={<Books />} />
-          <Route path='/' element={<Authors />} />
+          <Route path='/' element={<Authors signedIn={signedIn} />} />
           <Route path='/login' element={<LoginForm setSignedIn={setSignedIn} />} />
         </Routes>
       </div>

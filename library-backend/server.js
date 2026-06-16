@@ -17,7 +17,6 @@ const User = require('./models/user')
 
 const getUserFromAuthHeader = async (auth) => {
   if (!auth || !auth.startsWith('Bearer ')) {
-    console.log("I am here")
     return null
   }
  
@@ -62,15 +61,6 @@ const startServer = async (port) => {
       context: async ({ req }) => {
         const auth = req.headers.authorization
         const currentUser = await getUserFromAuthHeader(auth)
-        // if (!currentUser) {
-        //   throw new GraphQLError(`not validated`, {
-        //     extensions: {
-        //       code: "BAD_USER_INPUT",
-        //       invalidArgs: args.name,
-        //       error,
-        //     },
-        //   });
-        // }
         return { currentUser }
       },
     }),

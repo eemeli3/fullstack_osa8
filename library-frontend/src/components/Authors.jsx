@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client/react'
 import { ALL_AUTHORS } from '../queries'
 import BirthyearForm from './BirthyearForm'
 
-const Authors = () => {
+const Authors = ({ signedIn }) => {
   const result = useQuery(ALL_AUTHORS)
 
   if (result.loading) {
@@ -30,8 +30,7 @@ const Authors = () => {
           ))}
         </tbody>
       </table>
-      <h2>Set birthyear</h2>
-      <BirthyearForm authors={authors} />
+      {signedIn && <BirthyearForm authors={authors} />}
     </div>
   )
 }

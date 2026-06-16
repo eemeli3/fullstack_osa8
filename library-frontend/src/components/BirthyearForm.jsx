@@ -21,6 +21,7 @@ const BirthyearForm = (props) => {
 
   return (
     <div>
+      <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
           <label>
