@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link
-} from 'react-router-dom'
+import PageMenu from './components/PageMenu'
+import Notification from './components/Notification'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
@@ -14,39 +12,31 @@ import { BOOK_ADDED } from './queries'
 
 const App = () => {
   const [ signedIn, setSignedIn ] = useState(localStorage.getItem('library-user-token') ? true : false)
+  const [ page, setPage ] = useState('authors')
+  const [ message, setMessage ] = useState(null)
+
+  const notify = (msg) => {
+    setMessage(msg)
+    setTimeout(() => setMessage(null), 5000)
+  }
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
-      const addedBook = data.data.bookAdded
-      window.alert(`${addedBook.title} by ${addedBook.author.name} added`)
+      // const addedBook = data.data.bookAdded
+      // notify(`${addedBook.title} by ${addedBook.author.name} added`)
     }
   })
 
-  const navigationButton = {
-    padding: 5
-  }
-
   return (
-    <Router>
-      <div>
-        <div>
-          <Link style={navigationButton} to='/'>authors</Link>
-          <Link style={navigationButton} to='/books'>books</Link>
-          {!signedIn && <Link style={navigationButton} to='/login'>login</Link>}
-          {signedIn && <Link style={navigationButton} to='/add'>add book</Link>}
-          {signedIn && <Link style={navigationButton} to='/recommended'>recommend</Link>}
-          {signedIn && <Logout style={navigationButton} setSignedIn={setSignedIn} />}
-        </div>
-
-        <Routes>
-          <Route path='/add' element={<NewBook />} />
-          <Route path='/recommended' element={<Recommended />} />
-          <Route path='/books' element={<Books />} />
-          <Route path='/' element={<Authors signedIn={signedIn} />} />
-          <Route path='/login' element={<LoginForm setSignedIn={setSignedIn} />} />
-        </Routes>
-      </div>
-    </Router>
+    <div>
+      <PageMenu setPage={setPage} signedIn={signedIn} setSignedIn={setSignedIn} />
+      {message && <Notification message={message} />}
+      {(page === 'authors') && <Authors signedIn={signedIn} />}
+      {(page === 'books') && <Books />}
+      {(page === 'login') && <LoginForm setSignedIn={setSignedIn} setPage={setPage} notify={notify} />}
+      {(page === 'add book') && <NewBook />}
+      {(page === 'recommended') && <Recommended />}
+    </div>
   )
 }
 

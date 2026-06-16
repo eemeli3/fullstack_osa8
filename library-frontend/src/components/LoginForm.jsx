@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/client/react'
-import { useNavigate } from 'react-router-dom'
 import { LOGIN } from '../queries'
 
-const LoginForm = ({ setSignedIn }) => {
+const LoginForm = ({ setSignedIn, setPage, notify }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -11,10 +10,11 @@ const LoginForm = ({ setSignedIn }) => {
     onCompleted: (data) => {
       const token = data.login.value
       localStorage.setItem('library-user-token', token)
+    },
+    onError: () => {
+      notify(`login failed`)
     }
   })
-
-  const navigate = useNavigate()
 
   const submit = async (event) => {
     event.preventDefault()
@@ -25,25 +25,27 @@ const LoginForm = ({ setSignedIn }) => {
       }
     })
     setSignedIn(true)
-    navigate('/')
+    setPage('authors')
   }
 
   return (
     <div>
       <form onSubmit={submit}>
-        <div>
+        <label>
           username <input
             value={username}
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
+        </label>
+        <br />
+        <label>
           password <input
             type='password'
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
+        </label>
+        <br />
         <button type='submit'>login</button>
       </form>
     </div>
