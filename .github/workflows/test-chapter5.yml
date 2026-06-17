@@ -1,4 +1,3 @@
-# Playwright fails to install browsers on github currently. Tests do not work in github. Local tests work.
 name: E2E tests (library)
 
 on:
