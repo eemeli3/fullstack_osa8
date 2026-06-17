@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Playwright browsers
         working-directory: tests-chapter5
-        run: npx playwright install firefox --with-deps
+        run: npx playwright install chromium --with-deps
 
       - name: Run E2E tests
         working-directory: tests-chapter5
